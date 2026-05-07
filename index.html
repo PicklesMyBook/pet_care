@@ -221,6 +221,10 @@
       gap: 12px;
     }
 
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
     label {
       display: grid;
       gap: 6px;
@@ -233,6 +237,7 @@
     select,
     textarea {
       width: 100%;
+      min-width: 0;
       min-height: 44px;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -636,6 +641,12 @@
       flex-wrap: wrap;
     }
 
+    @media (min-width: 761px) {
+      .booking-panel .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 900px) {
       .nav-links {
         display: none;
@@ -767,14 +778,32 @@
               </select>
             </label>
             <label>
+              聯絡人姓名
+              <input id="contactName" type="text" autocomplete="name" placeholder="請輸入主要聯絡人" required>
+            </label>
+            <label>
+              聯絡電話
+              <input id="contactPhone" type="tel" autocomplete="tel" placeholder="例如：0912-345-678" required>
+            </label>
+            <label>
+              聯絡方式
+              <select id="contactMethod" required>
+                <option value="">請選擇</option>
+                <option>電話</option>
+                <option>LINE</option>
+                <option>簡訊</option>
+                <option>Email</option>
+              </select>
+            </label>
+            <label>
               希望日期
               <input id="visitDate" type="date" required>
             </label>
-            <label>
+            <label class="full">
               補充說明
               <textarea id="notes" placeholder="例如：寵物年齡、飲食限制、用藥時間"></textarea>
             </label>
-            <button class="btn" type="submit">送出預約</button>
+            <button class="btn full" type="submit">送出預約</button>
           </div>
         </form>
       </div>
@@ -1084,7 +1113,8 @@
       event.preventDefault();
       const petType = document.querySelector("#petType").value || "寵物";
       const serviceType = document.querySelector("#serviceType").value || "照護";
-      toast.textContent = `已收到 ${petType} 的${serviceType}需求，我們會盡快回覆可服務時段。`;
+      const contactName = document.querySelector("#contactName").value || "聯絡人";
+      toast.textContent = `已收到 ${contactName} 的預約，${petType} 的${serviceType}需求會盡快回覆可服務時段。`;
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 3600);
       event.currentTarget.reset();
