@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PawCare 寵物照護</title>
+  <style>
+    :root {
+      --bg: #f7f9f5;
+      --surface: #ffffff;
+      --ink: #1d2a2a;
+      --muted: #637170;
+      --line: #dfe8e2;
+      --green: #2f7d62;
+      --green-dark: #225d4a;
+      --coral: #d96f55;
+      --coral-soft: #fae9e3;
+      --sage: #dceade;
+      --gold: #c49132;
+      --shadow: 0 18px 50px rgba(29, 42, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 249, 245, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 32px));
+      height: 70px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--green);
+      border-radius: 8px;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+    }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--green-dark);
+      border-color: var(--line);
+    }
+
+    .btn.secondary:hover {
+      background: var(--sage);
+    }
+
+    .hero {
+      min-height: calc(100vh - 70px);
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(90deg, rgba(19, 38, 35, 0.78), rgba(19, 38, 35, 0.42) 42%, rgba(19, 38, 35, 0.1)),
+        url("assets/pet-care-hero.png") center right / cover no-repeat;
+    }
+
+    .hero-inner {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 70px 0 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 420px);
+      gap: 34px;
+      align-items: end;
+    }
+
+    .hero-copy {
+      color: #fff;
+      padding-bottom: 42px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #f7f0df;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 18px 0 18px;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .hero-copy p {
+      max-width: 590px;
+      margin: 0 0 28px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .booking-panel,
+    .care-summary,
+    .service-card,
+    .plan-card,
+    .supply-card,
+    .shop-photo-card,
+    .contact-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .booking-panel {
+      padding: 24px;
+    }
+
+    .panel-title {
+      margin: 0 0 4px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .panel-note {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fbfdfb;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(47, 125, 98, 0.14);
+    }
+
+    .section {
+      padding: 74px 0;
+    }
+
+    .section.alt {
+      background: #eef5ee;
+    }
+
+    .section-inner {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .section-kicker {
+      margin: 0 0 8px;
+      color: var(--coral);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 440px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: -26px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .care-summary {
+      padding: 18px;
+      box-shadow: 0 12px 34px rgba(29, 42, 42, 0.09);
+    }
+
+    .summary-value {
+      display: block;
+      color: var(--green-dark);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service-card {
+      padding: 22px;
+      box-shadow: none;
+    }
+
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      color: var(--green-dark);
+      background: var(--sage);
+      font-weight: 900;
+    }
+
+    .service-card h3,
+    .plan-card h3,
+    .supply-card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .service-card p,
+    .plan-card p,
+    .supply-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .routine {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .routine-controls {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .routine-tab {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: #fbfdfb;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      padding: 0 14px;
+    }
+
+    .routine-tab.active {
+      color: #fff;
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .plan-card {
+      min-height: 100%;
+      padding: 28px;
+      box-shadow: none;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdfb;
+    }
+
+    .task input {
+      width: 20px;
+      min-height: 20px;
+      accent-color: var(--green);
+    }
+
+    .supply-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .supply-card {
+      padding: 22px;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .supply-meter {
+      height: 10px;
+      margin-top: 18px;
+      border-radius: 999px;
+      background: #edf1ee;
+      overflow: hidden;
+    }
+
+    .supply-meter span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--coral);
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .shop-photo-card {
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .shop-photo-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .shop-carousel {
+      position: relative;
+      background: #102220;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      position: relative;
+      aspect-ratio: 16 / 9;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 260ms ease;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.56);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(29, 42, 42, 0.5);
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .carousel-control:hover {
+      background: rgba(34, 93, 74, 0.82);
+    }
+
+    .carousel-control.prev {
+      left: 12px;
+    }
+
+    .carousel-control.next {
+      right: 12px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.45);
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      width: 24px;
+      background: #fff;
+    }
+
+    .shop-carousel ~ img,
+    .shop-carousel ~ .shop-photo-body:not(.carousel-body) {
+      display: none;
+    }
+
+    .shop-photo-body {
+      padding: 18px 20px 20px;
+    }
+
+    .shop-photo-body h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .shop-photo-body p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .contact-panel {
+      padding: 28px;
+      box-shadow: none;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      color: var(--muted);
+    }
+
+    .contact-list strong {
+      color: var(--ink);
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: min(360px, calc(100% - 36px));
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      transform: translateY(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: #fff;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        background:
+          linear-gradient(180deg, rgba(19, 38, 35, 0.72), rgba(19, 38, 35, 0.38)),
+          url("assets/pet-care-hero.png") center / cover no-repeat;
+      }
+
+      .hero-inner,
+      .routine,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        padding-bottom: 0;
+      }
+
+      .summary-grid,
+      .services-grid,
+      .supply-grid,
+      .shop-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav {
+        height: 64px;
+      }
+
+      .hero-inner {
+        width: min(100% - 24px, 1120px);
+        padding: 42px 0 28px;
+      }
+
+      .section {
+        padding: 54px 0;
+      }
+
+      .section-head {
+        display: grid;
+      }
+
+      .summary-grid,
+      .services-grid,
+      .supply-grid,
+      .shop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-panel,
+      .contact-panel,
+      .plan-card {
+        padding: 20px;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .contact-list li {
+        display: grid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="主要導覽">
+      <a class="brand" href="#top" aria-label="PawCare 首頁">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>PawCare 寵物照護</span>
+      </a>
+      <div class="nav-links">
+        <a href="#store-info">店內環境</a>
+        <a href="#services">服務</a>
+        <a href="#routine">照護排程</a>
+        <a href="#supplies">用品建議</a>
+        <a href="#contact">聯絡</a>
+      </div>
+      <a class="btn" href="#booking">預約諮詢</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="寵物照護首頁">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow">到府照護與日常健康管理</span>
+          <h1>把每一天的照護做得穩定、乾淨、安心。</h1>
+          <p>PawCare 提供餵食、清潔、散步、基礎健康紀錄與長期照護提醒，適合忙碌家庭、幼年寵物、熟齡犬貓與術後恢復期。</p>
+          <div class="hero-actions">
+            <a class="btn" href="#booking">安排第一次評估</a>
+            <a class="btn secondary" href="#routine">查看照護計畫</a>
+          </div>
+        </div>
+
+        <form class="booking-panel" id="booking">
+          <h2 class="panel-title">快速預約</h2>
+          <p class="panel-note">填寫基本需求，我們會回覆可服務時段與建議方案。</p>
+          <div class="form-grid">
+            <label>
+              寵物種類
+              <select id="petType" required>
+                <option value="">請選擇</option>
+                <option>犬</option>
+                <option>貓</option>
+                <option>犬貓皆有</option>
+                <option>其他小型寵物</option>
+              </select>
+            </label>
+            <label>
+              需要服務
+              <select id="serviceType" required>
+                <option value="">請選擇</option>
+                <option>餵食與換水</option>
+                <option>散步與陪伴</option>
+                <option>清潔與梳理</option>
+                <option>健康觀察</option>
+              </select>
+            </label>
+            <label>
+              希望日期
+              <input id="visitDate" type="date" required>
+            </label>
+            <label>
+              補充說明
+              <textarea id="notes" placeholder="例如：寵物年齡、飲食限制、用藥時間"></textarea>
+            </label>
+            <button class="btn" type="submit">送出預約</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="section-inner">
+      <div class="summary-grid" aria-label="照護摘要">
+        <article class="care-summary">
+          <span class="summary-value">12</span>
+          <span class="summary-label">項日常照護檢核</span>
+        </article>
+        <article class="care-summary">
+          <span class="summary-value">30m</span>
+          <span class="summary-label">單次到府基本時長</span>
+        </article>
+        <article class="care-summary">
+          <span class="summary-value">24h</span>
+          <span class="summary-label">照護紀錄回傳</span>
+        </article>
+        <article class="care-summary">
+          <span class="summary-value">4</span>
+          <span class="summary-label">種客製照護方案</span>
+        </article>
+      </div>
+    </div>
+
+    <section class="section" id="services">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Services</p>
+            <h2>從日常到特殊需求的完整照護</h2>
+          </div>
+          <p>每次服務都會留下紀錄，包含飲食、水量、排泄、活動狀態與照片，方便你掌握寵物的細微變化。</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">01</div>
+            <h3>餵食與補水</h3>
+            <p>依照飼主指示備餐、補水、清洗碗具，並記錄食慾與飲水狀況。</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">02</div>
+            <h3>散步與陪伴</h3>
+            <p>安排安全路線、消耗精力、觀察步態與精神狀態，降低分離焦慮。</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">03</div>
+            <h3>清潔與梳理</h3>
+            <p>梳毛、擦拭足部、清理貓砂與環境，讓居家照護維持乾淨穩定。</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">04</div>
+            <h3>基礎健康觀察</h3>
+            <p>注意排泄、皮膚、眼耳口鼻與行為異常，協助及早發現照護風險。</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">05</div>
+            <h3>熟齡寵物支援</h3>
+            <p>提供低刺激陪伴、慢速散步、舒適墊位整理與固定時間提醒。</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box" aria-hidden="true">06</div>
+            <h3>外出期間代照</h3>
+            <p>短期出差或旅行時，維持寵物原本作息，減少寄宿環境造成的壓力。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="routine">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Routine</p>
+            <h2>依照寵物狀態切換照護計畫</h2>
+          </div>
+          <p>選擇不同需求，查看建議的每日檢核。完成項目會即時計算進度。</p>
+        </div>
+        <div class="routine">
+          <div class="routine-controls" role="tablist" aria-label="照護計畫">
+            <button class="routine-tab active" type="button" data-plan="daily">日常保養</button>
+            <button class="routine-tab" type="button" data-plan="senior">熟齡照護</button>
+            <button class="routine-tab" type="button" data-plan="travel">外出代照</button>
+          </div>
+          <article class="plan-card">
+            <h3 id="planTitle">日常保養</h3>
+            <p id="planDesc">適合健康穩定的犬貓，重點是維持規律作息與乾淨環境。</p>
+            <div class="task-list" id="taskList" aria-live="polite"></div>
+            <p class="panel-note" id="progressText" style="margin-top: 18px;">完成 0 / 4</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="supplies">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Supplies</p>
+            <h2>用品準備清單</h2>
+          </div>
+          <p>預約前準備好常用物品，可以讓照護流程更順暢，也能降低寵物壓力。</p>
+        </div>
+        <div class="supply-grid">
+          <article class="supply-card">
+            <h3>飲食區</h3>
+            <p>主食、零食、量杯、飲水機濾芯、備用碗具。</p>
+            <div class="supply-meter" aria-hidden="true"><span style="width: 86%;"></span></div>
+          </article>
+          <article class="supply-card">
+            <h3>清潔區</h3>
+            <p>貓砂、便袋、濕紙巾、除臭噴霧、毛巾與梳子。</p>
+            <div class="supply-meter" aria-hidden="true"><span style="width: 72%;"></span></div>
+          </article>
+          <article class="supply-card">
+            <h3>健康區</h3>
+            <p>用藥說明、獸醫聯絡方式、外出籠、醫療紀錄。</p>
+            <div class="supply-meter" aria-hidden="true"><span style="width: 64%;"></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="store-info">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Store</p>
+            <h2>店內環境與店家地圖</h2>
+          </div>
+          <p>提供實際店內空間與 10548 臺北市松山區松基里敦化北路158號的位置資訊，讓第一次到訪前能先掌握方向。</p>
+        </div>
+        <div class="shop-grid">
+          <article class="shop-photo-card">
+            <div class="shop-carousel" aria-label="高端店內環境輪播">
+              <div class="carousel-track">
+                <img class="carousel-slide active" src="assets/store-carousel-reception.png" alt="PawCare 高端接待與精品用品展示區">
+                <img class="carousel-slide" src="assets/store-carousel-grooming.png" alt="PawCare 私密洗護美容照護區">
+                <img class="carousel-slide" src="assets/store-carousel-lounge.png" alt="PawCare 安靜諮詢與寵物休息區">
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="上一張店內環境圖">&lt;</button>
+              <button class="carousel-control next" type="button" aria-label="下一張店內環境圖">&gt;</button>
+              <div class="carousel-dots" role="tablist" aria-label="店內環境圖片切換">
+                <button class="carousel-dot active" type="button" aria-label="接待精品區" data-slide="0"></button>
+                <button class="carousel-dot" type="button" aria-label="洗護美容區" data-slide="1"></button>
+                <button class="carousel-dot" type="button" aria-label="諮詢休息區" data-slide="2"></button>
+              </div>
+            </div>
+            <div class="shop-photo-body carousel-body">
+              <h3>高端品牌感店內環境</h3>
+              <p>輪播展示接待精品區、私密洗護美容區與安靜諮詢休息區，以乾淨材質、柔和燈光與精緻分區呈現專業信任感。</p>
+            </div>
+            <img src="assets/store-interior.png" alt="PawCare 店內接待、照護與用品展示環境">
+            <div class="shop-photo-body">
+              <h3>明亮乾淨的照護空間</h3>
+              <p>接待區、照護工作區與用品展示保持分區，讓寵物在穩定、衛生的環境中完成諮詢與服務。</p>
+            </div>
+          </article>
+          <article class="shop-photo-card">
+            <img src="assets/store-map-ai.png" alt="PawCare AI 繪製店家地圖，標示 10548 臺北市松山區松基里敦化北路158號">
+            <div class="shop-photo-body">
+              <h3>店門位置</h3>
+              <p>我們的店位於 10548 臺北市松山區松基里敦化北路158號，地圖已用 PawCare 標記標出店門位置，方便到店諮詢、用品補給與照護交接。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="contact">
+      <div class="section-inner contact-wrap">
+        <div>
+          <p class="section-kicker">Contact</p>
+          <h2>先了解寵物，再安排服務。</h2>
+          <p style="color: var(--muted); max-width: 520px;">初次服務會先確認寵物個性、過敏與用藥、家中動線、緊急聯絡人與獸醫資訊，再開始正式照護。</p>
+        </div>
+        <div class="contact-panel">
+          <h3 style="margin-top: 0;">服務資訊</h3>
+          <ul class="contact-list">
+            <li><strong>服務時間</strong><span>週一至週日 08:00 - 21:00</span></li>
+            <li><strong>店門位置</strong><span>10548 臺北市松山區松基里敦化北路158號</span></li>
+            <li><strong>聯絡電話</strong><span>02-2345-6789</span></li>
+            <li><strong>電子信箱</strong><span>care@pawcare.example</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2026 PawCare 寵物照護</span>
+      <span>到府照護、日常陪伴、健康紀錄</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const carousel = document.querySelector(".shop-carousel");
+      if (!carousel) return;
+
+      const slides = [...carousel.querySelectorAll(".carousel-slide")];
+      const dots = [...carousel.querySelectorAll(".carousel-dot")];
+      const prev = carousel.querySelector(".carousel-control.prev");
+      const next = carousel.querySelector(".carousel-control.next");
+      let current = 0;
+      let timer;
+
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === current);
+        });
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle("active", dotIndex === current);
+        });
+      }
+
+      function restartTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => showSlide(current + 1), 4200);
+      }
+
+      prev.addEventListener("click", () => {
+        showSlide(current - 1);
+        restartTimer();
+      });
+
+      next.addEventListener("click", () => {
+        showSlide(current + 1);
+        restartTimer();
+      });
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          showSlide(Number(dot.dataset.slide));
+          restartTimer();
+        });
+      });
+
+      restartTimer();
+    })();
+  </script>
+
+  <script>
+    const plans = {
+      daily: {
+        title: "日常保養",
+        desc: "適合健康穩定的犬貓，重點是維持規律作息與乾淨環境。",
+        tasks: ["確認食量與飲水量", "清潔碗具與排泄區", "梳理毛髮並檢查皮膚", "回傳照片與照護紀錄"]
+      },
+      senior: {
+        title: "熟齡照護",
+        desc: "適合年長或行動較慢的寵物，重點是舒適、安全與異常觀察。",
+        tasks: ["檢查步態與起身狀態", "整理止滑墊與睡眠區", "記錄排泄頻率與精神", "依指示提醒用藥時間"]
+      },
+      travel: {
+        title: "外出代照",
+        desc: "適合飼主短期外出，重點是維持原作息並降低環境壓力。",
+        tasks: ["確認門窗與室內安全", "依原時間餵食與換水", "陪伴互動並觀察情緒", "每日整理完整回報"]
+      }
+    };
+
+    const taskList = document.querySelector("#taskList");
+    const planTitle = document.querySelector("#planTitle");
+    const planDesc = document.querySelector("#planDesc");
+    const progressText = document.querySelector("#progressText");
+    const tabs = document.querySelectorAll(".routine-tab");
+    const toast = document.querySelector("#toast");
+
+    function updateProgress() {
+      const checked = taskList.querySelectorAll("input:checked").length;
+      const total = taskList.querySelectorAll("input").length;
+      progressText.textContent = `完成 ${checked} / ${total}`;
+    }
+
+    function renderPlan(planName) {
+      const plan = plans[planName];
+      planTitle.textContent = plan.title;
+      planDesc.textContent = plan.desc;
+      taskList.innerHTML = "";
+
+      plan.tasks.forEach((task, index) => {
+        const label = document.createElement("label");
+        label.className = "task";
+        label.innerHTML = `<input type="checkbox" aria-label="${task}"><span>${task}</span>`;
+        taskList.appendChild(label);
+      });
+
+      updateProgress();
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        renderPlan(tab.dataset.plan);
+      });
+    });
+
+    taskList.addEventListener("change", updateProgress);
+
+    document.querySelector("#booking").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const petType = document.querySelector("#petType").value || "寵物";
+      const serviceType = document.querySelector("#serviceType").value || "照護";
+      toast.textContent = `已收到 ${petType} 的${serviceType}需求，我們會盡快回覆可服務時段。`;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3600);
+      event.currentTarget.reset();
+    });
+
+    renderPlan("daily");
+  </script>
+</body>
+</html>
