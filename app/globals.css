@@ -451,7 +451,6 @@
 
     .shop-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
 
@@ -461,9 +460,16 @@
     }
 
     .shop-photo-card img {
+      display: block;
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
+    }
+
+    .shop-map-card img {
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
     }
 
     .shop-carousel {

@@ -335,7 +335,6 @@ export default function Home() {
                 <p className="section-kicker">Store</p>
                 <h2>店內環境與店家地圖</h2>
               </div>
-              <p>提供實際店內空間與 10548 臺北市松山區松基里敦化北路158號的位置資訊，讓第一次到訪前能先掌握方向。</p>
             </div>
             <div className="shop-grid">
               <article className="shop-photo-card">
@@ -380,7 +379,7 @@ export default function Home() {
                   <p>接待區、照護工作區與用品展示保持分區，讓寵物在穩定、衛生的環境中完成諮詢與服務。</p>
                 </div>
               </article>
-              <article className="shop-photo-card">
+              <article className="shop-photo-card shop-map-card">
                 <img src="/assets/store-map-ai.png" alt="PawCare AI 繪製店家地圖，標示 10548 臺北市松山區松基里敦化北路158號" />
                 <div className="shop-photo-body">
                   <h3>店門位置</h3>
