@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "PawCare 寵物照護",
-  description: "PawCare 到府照護與日常健康管理",
+  description: "PawCare 提供寵物照護、美容、寄宿與到府服務。",
 };
 
 export default function RootLayout({ children }) {
