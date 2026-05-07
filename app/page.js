@@ -287,7 +287,6 @@ export default function Home() {
           <div className="section-inner">
             <div className="section-head">
               <div><p className="section-kicker">Store</p><h2>明亮、安靜、容易觀察的門市空間</h2></div>
-              <p>接待、美容與休息區域分流，讓毛孩能在乾淨且穩定的環境中接受照護。</p>
             </div>
             <div className="shop-grid">
               <article className="shop-photo-card">
@@ -315,7 +314,7 @@ export default function Home() {
                   <p>以容易清潔的材質與穩定照明，維持每天照護品質。</p>
                 </div>
               </article>
-              <article className="shop-photo-card">
+              <article className="shop-photo-card shop-map-card">
                 <img src="/assets/store-map-ai.png" alt="PawCare 門市位置地圖" />
                 <div className="shop-photo-body">
                   <h3>門市位置</h3>
