@@ -802,8 +802,8 @@
               </select>
             </label>
             <label>
-              希望日期
-              <input id="visitDate" type="date" required>
+              希望到店日期
+              <input id="visitDate" type="datetime-local" required>
             </label>
             <label class="full">
               補充說明
@@ -1113,6 +1113,14 @@
     });
 
     taskList.addEventListener("change", updateProgress);
+
+    const visitDateInput = document.querySelector("#visitDate");
+    if (visitDateInput) {
+      const defaultDate = new Date();
+      defaultDate.setHours(9, 30, 0, 0);
+      const offsetMs = defaultDate.getTimezoneOffset() * 60 * 1000;
+      visitDateInput.value = new Date(defaultDate.getTime() - offsetMs).toISOString().slice(0, 16);
+    }
 
     document.querySelector("#booking").addEventListener("submit", (event) => {
       event.preventDefault();
