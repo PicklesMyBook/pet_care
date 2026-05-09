@@ -56,6 +56,13 @@ const testimonials = [
   { name: "許先生", pet: "柯基 Toro", quote: "Toro 活力很旺，照護人員會安排足夠活動，也會提醒牠最近體重變化，感覺真的有在觀察。", rating: "5.0" },
 ];
 
+function getDefaultVisitDateTime() {
+  const date = new Date();
+  date.setHours(9, 30, 0, 0);
+  const offsetMs = date.getTimezoneOffset() * 60 * 1000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
+
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeReview, setActiveReview] = useState(0);
@@ -64,6 +71,7 @@ export default function Home() {
   const [toast, setToast] = useState("");
   const toastTimer = useRef(null);
   const plan = carePlans[activePlan];
+  const defaultVisitDateTime = getDefaultVisitDateTime();
 
   useEffect(() => {
     const timer = setInterval(() => setActiveSlide((slide) => (slide + 1) % carouselSlides.length), 4200);
@@ -165,8 +173,8 @@ export default function Home() {
                     <option>到府服務</option>
                   </select>
                 </label>
-                <label>預計日期
-                  <input name="visitDate" id="visitDate" type="date" required />
+                <label>預計到店日期
+                  <input name="visitDate" id="visitDate" type="datetime-local" defaultValue={defaultVisitDateTime} required />
                 </label>
                 <label>備註
                   <textarea name="notes" id="notes" placeholder="例如個性、飲食、用藥或特殊照護需求" />
